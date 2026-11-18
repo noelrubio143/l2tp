@@ -16,7 +16,7 @@ jobs:
         run: |
           mkdir -p scripts
           BASE=https://raw.githubusercontent.com/hwdsl2/setup-ipsec-vpn/master
-          for f in vpnsetup.sh vpnsetup_centos.sh vpnsetup_alpine.sh; do
+          for f in vpnsetup.sh vpnsetup_ubuntu.sh vpnsetup_centos.sh vpnsetup_alpine.sh; do
             wget -q "$BASE/$f" -O "scripts/$f"
           done
           chmod +x scripts/*.sh
