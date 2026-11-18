@@ -1,0 +1,30 @@
+name: Fetch L2TP/IPsec scripts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download hwdsl2 scripts
+        run: |
+          mkdir -p scripts
+          BASE=https://raw.githubusercontent.com/hwdsl2/setup-ipsec-vpn/master
+          for f in vpnsetup.sh vpnsetup_centos.sh vpnsetup_alpine.sh; do
+            wget -q "$BASE/$f" -O "scripts/$f"
+          done
+          chmod +x scripts/*.sh
+
+      - name: Commit changes
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts
+          git diff --cached --quiet || git commit -m "Add L2TP/IPsec scripts"
+          git push
